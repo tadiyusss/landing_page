@@ -1,0 +1,82 @@
+{% extends "dashboard/base.html" %}
+{% block title %}{{ g.settings['site_title'] }} - Waitlist{% endblock %}
+{% block main %}
+<div class="max-w-6xl mx-auto">
+	<div class="card overflow-hidden">
+		<div class="px-6 py-4 border-b border-blue-600/[0.08] flex items-center justify-between gap-4 flex-wrap">
+			<div>
+				<h3 class="text-sm font-semibold text-blue-800">Manage Waitlist</h3>
+				<p class="text-xs text-blue-800/45 mt-0.5">Manage and update waitlist entries.</p>
+			</div>
+		</div>
+		<div class="overflow-x-auto">
+			<table class="w-full text-xs">
+				<thead>
+					<tr class="border-b border-blue-600/[0.08] bg-blue-50/40">
+						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Email</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Telegram Username</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Role</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Product Interest</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Monthly Order</th>
+                        <th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Date Registered</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-blue-600/[0.05]"> 
+                    {% if waitlist %} 
+                    {% for user in waitlist %} 
+                    <tr class="hover:bg-blue-50/40 transition-colors duration-100">
+						<td class="px-6 py-3.5">
+							<div class="flex items-center gap-2.5">
+								<span class="font-medium text-blue-800 truncate max-w-[200px]">{{ user.email }}</span>
+							</div>
+						</td>
+						<td class="px-4 py-3.5 text-blue-800/50">
+                            <a href="https://t.me/{{ user.telegram_username }}" class="text-blue-600 hover:text-blue-800" target="_blank">{{ user.telegram_username }}</a>
+                        </td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ user.role.value }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ user.product_interest.value }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ user.monthly_orders_range.value }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ user.created_at.strftime("%B") }} {{ user.created_at.day }}, {{ user.created_at.year }}</td>
+					</tr> 
+                    {% endfor %} 
+                    {% else %} 
+                    <tr>
+						<td colspan="6" class="px-6 py-10 text-center text-blue-800/35 text-xs">No users found.</td>
+					</tr> 
+                    {% endif %} 
+                </tbody>
+			</table>
+		</div>
+	</div>
+    <div class="flex items-center justify-between gap-4 px-1 py-4">
+        <p class="text-xs text-blue-800/40 font-medium">Showing <span class="text-blue-800 font-semibold">{{ waitlist|length }}</span> results </p>
+        <div class="flex items-center gap-1">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('landing_page.waitlist', page=1) }}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <a href="{{ url_for('landing_page.waitlist', page=pagination.prev_num) }}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            {% endif %}
+            {% if pagination.has_next %}
+            <a href="{{ url_for('landing_page.waitlist', page=pagination.next_num) }}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+            <a href="{{ url_for('landing_page.waitlist', page=pagination.pages) }}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M6 5l7 7-7 7" />
+                </svg>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
