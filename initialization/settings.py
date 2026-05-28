@@ -15,7 +15,8 @@ SETTINGS = [
                 field=StringField(
                     "Customer Support Telegram Username", 
                     description="The Telegram username (without @) for customer support inquiries.",
-                )
+                ),
+                category_name="landing_page"
             )
         ]
     )
@@ -23,19 +24,5 @@ SETTINGS = [
 
 
 def register_settings():
-    print(f"[Landing Page] Registering settings...")
     for category in SETTINGS:
-        register_category(
-            name=category.name,
-            nice_name=category.nice_name,
-            description=category.description
-        )
-        for setting in category.settings:
-            register_setting(
-                key=setting.key,
-                name=setting.name,
-                value=setting.value,
-                category_name=category.name,
-                field=setting.field
-            )
-    print(f"[Landing Page] Settings registered.")
+        register_category(category)
