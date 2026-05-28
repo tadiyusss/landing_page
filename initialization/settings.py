@@ -1,5 +1,6 @@
 from core.utils.settings import SettingCategory, SettingItem
-from wtforms import StringField
+from wtforms import StringField, EmailField
+from ..forms.validators import validate_telegram_username
 from core.utils.registry.settings import register_setting, register_category
 
 SETTINGS = [
@@ -15,6 +16,17 @@ SETTINGS = [
                 field=StringField(
                     "Customer Support Telegram Username", 
                     description="The Telegram username (without @) for customer support inquiries.",
+                    validators=[validate_telegram_username]
+                ),
+                category_name="landing_page"
+            ),
+            SettingItem(
+                key="csr_email",
+                name="Customer Support Email",
+                value="",
+                field=EmailField(
+                    "Customer Support Email", 
+                    description="The email address for customer support inquiries.",
                 ),
                 category_name="landing_page"
             )
