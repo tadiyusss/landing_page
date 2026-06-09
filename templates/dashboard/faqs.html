@@ -8,6 +8,7 @@
 				<h3 class="text-sm font-semibold text-blue-800">Manage FAQs</h3>
 				<p class="text-xs text-blue-800/45 mt-0.5">Manage and update frequently asked questions.</p>
 			</div>
+			<a href="{{ url_for('landing_page.create_faq') }}" class="btn btn-primary">Add Entry</a>
 		</div>
 		<div class="overflow-x-auto">
 			<table class="w-full text-xs">
@@ -20,17 +21,27 @@
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-blue-600/[0.05]"> 
-                   <tr class="hover:bg-blue-50/40 transition-colors duration-100">
-						<td class="px-4 py-3.5 text-blue-800/50">Thaddeus Toledo</td>
-						<td class="px-4 py-3.5 text-blue-800/50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, ipsa quo?</td>
-						<td class="px-4 py-3.5 text-blue-800/50">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur delectus consequatur rem! Ducimus!</td>
+					{% for faq in faqs %}
+                   	<tr class="hover:bg-blue-50/40 transition-colors duration-100">
+						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.created_by.username }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.question }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.answer }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-1">
+							<a href="#" class="btn btn-primary">Edit</a>
+							<a href="{{ url_for('landing_page.delete_faq', faq_uuid=faq.uuid) }}" class="btn btn-danger">Delete</a>
+						</td>
 					</tr>
+					{% else %}
+					<tr>
+						<td colspan="4" class="p-6 text-center text-blue-800/50">No FAQs found. Start by creating a new entry.</td>
+					</tr>
+					{% endfor %}
                 </tbody>
 			</table>
 		</div>
 	</div>
     <div class="flex items-center justify-between gap-4 px-1 py-4">
-        <p class="text-xs text-blue-800/40 font-medium">Showing <span class="text-blue-800 font-semibold">{{ waitlist|length }}</span> results </p>
+        <p class="text-xs text-blue-800/40 font-medium">Showing <span class="text-blue-800 font-semibold">{{ faqs|length }}</span> results </p>
     </div>
 </div>
     
