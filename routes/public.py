@@ -3,12 +3,11 @@ from flask import render_template, request, redirect, url_for, flash
 from core.extensions import db
 from ..forms.waitlist import WaitlistForm
 from ..models.waitlist import Waitlist, WaitlistRole, ProductInterest, MonthlyOrdersRange
-from extensions.utils.visitors import tracking_visitor
+from extensions.landing_page.decorators.visitor_tracker import track_visitor
 
 @bp.route('/', methods=['GET', 'POST'])
+@track_visitor
 def home():
-    visitor = tracking_visitor()
-    print(visitor)
     form = WaitlistForm()
     if request.method == 'POST':
         if form.validate_on_submit():

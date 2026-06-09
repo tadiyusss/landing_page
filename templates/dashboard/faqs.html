@@ -1,5 +1,5 @@
 {% extends "dashboard/base.html" %}
-{% block title %}{{ g.settings['site_title'] }} - FAQs{% endblock %}
+{% block title %}{{ g.settings['site_title'] }} - Waitlist{% endblock %}
 {% block main %}
 <div class="max-w-6xl mx-auto">
 	<div class="card overflow-hidden">
@@ -9,6 +9,29 @@
 				<p class="text-xs text-blue-800/45 mt-0.5">Manage and update frequently asked questions.</p>
 			</div>
 		</div>
+		<div class="overflow-x-auto">
+			<table class="w-full text-xs">
+				<thead>
+					<tr class="border-b border-blue-600/[0.08] bg-blue-50/40">
+						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Created By</th>
+						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Question</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Answer</th>
+						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Action</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-blue-600/[0.05]"> 
+                   <tr class="hover:bg-blue-50/40 transition-colors duration-100">
+						<td class="px-4 py-3.5 text-blue-800/50">Thaddeus Toledo</td>
+						<td class="px-4 py-3.5 text-blue-800/50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, ipsa quo?</td>
+						<td class="px-4 py-3.5 text-blue-800/50">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur delectus consequatur rem! Ducimus!</td>
+					</tr>
+                </tbody>
+			</table>
+		</div>
+	</div>
+    <div class="flex items-center justify-between gap-4 px-1 py-4">
+        <p class="text-xs text-blue-800/40 font-medium">Showing <span class="text-blue-800 font-semibold">{{ waitlist|length }}</span> results </p>
+    </div>
 </div>
     
 {% endblock %}

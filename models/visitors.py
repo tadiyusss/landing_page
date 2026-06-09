@@ -15,7 +15,7 @@ class Visit(db.Model):
     utm_campaign = db.Column(db.String(255), nullable=True)
     path = db.Column(db.String(255), nullable=True)
 
-    visitor_id = db.Column(db.Integer, db.ForeignKey('visitor.id'), nullable=False)
+    visitor_id = db.Column(db.String(36), db.ForeignKey('visitor.uuid'), nullable=False)
 
     __table_args__ = (
         db.UniqueConstraint('uuid', name='uq_visits_uuid'),
@@ -45,7 +45,7 @@ class Visitor(db.Model):
 
     __table_args__ = (
         db.UniqueConstraint('uuid', name='uq_visitor_uuid'),
-        db.UniqueConstraint('visitor_id', name='uq_visitor_visitor_id'),
+        db.UniqueConstraint('visitor_id', name='uq_visitor_visitor_id', ),
     )
 
     def __repr__(self):
