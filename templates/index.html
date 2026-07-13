@@ -423,41 +423,41 @@
 				<p class="text-blue-800/60 text-lg mb-10 max-w-md mx-auto">Be among the first 500 sellers. Get a locked-in reduced fee rate, priority support, and your verified badge from day one.</p>
 				<form class="bg-white/95 rounded-2xl border border-blue-600/12 shadow-2xl p-8 text-left space-y-4" method="POST">
 					<div class="grid grid-cols-2 gap-4">
-						{{ form.hidden_tag() }}
+						{{ waitlist_form.hidden_tag() }}
 						<div>
-							{{ form.role.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ form.role }}
-							{% for error in form.role.errors %}
+							{{ waitlist_form.role.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ waitlist_form.role }}
+							{% for error in waitlist_form.role.errors %}
 								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
 							{% endfor %}
 						</div>
 						<div>
-							{{ form.telegram_username.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ form.telegram_username }}
-							{% for error in form.telegram_username.errors %}
+							{{ waitlist_form.telegram_username.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ waitlist_form.telegram_username }}
+							{% for error in waitlist_form.telegram_username.errors %}
 								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
 							{% endfor %}
 						</div>
 					</div>
 					<div>
-						{{ form.email.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-						{{ form.email }}
-						{% for error in form.email.errors %}
+						{{ waitlist_form.email.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+						{{ waitlist_form.email }}
+						{% for error in waitlist_form.email.errors %}
 							<p class="text-red-500 text-xs mt-1">{{ error }}</p>
 						{% endfor %}
 					</div>
 					<div class="grid grid-cols-2 gap-4">
 						<div>
-							{{ form.product_interest.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ form.product_interest }}
-							{% for error in form.product_interest.errors %}
+							{{ waitlist_form.product_interest.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ waitlist_form.product_interest }}
+							{% for error in waitlist_form.product_interest.errors %}
 								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
 							{% endfor %}
 						</div>
 						<div>
-							{{ form.monthly_orders_range.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ form.monthly_orders_range }}
-							{% for error in form.monthly_orders_range.errors %}
+							{{ waitlist_form.monthly_orders_range.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ waitlist_form.monthly_orders_range }}
+							{% for error in waitlist_form.monthly_orders_range.errors %}
 								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
 							{% endfor %}
 						</div>
@@ -472,12 +472,71 @@
 							</div>
 						{% endfor %}
 					{% endwith %}
-					<button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-800/30 text-base">Reserve My Early Access Spot</button>
+					<button type="submit" name="waitlist_form" class="w-full inline-flex items-center justify-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-800/30 text-base">Reserve My Early Access Spot</button>
 					<p class="text-center text-xs text-blue-800/40">Free during beta · No credit card · Spots are limited</p>
 				</form>
 			</div>
 		</section>
-		
+		<section id="contact-us" class="py-24 bg-white">
+			<div class="max-w-5xl mx-auto px-6">
+				<div class="text-center mb-16">
+					<h2 class="brand text-4xl md:text-5xl text-blue-800 mb-4">Contact Us</h2>
+					<p class="text-blue-800/50 text-lg max-w-xl mx-auto">Have questions or feedback? We'd love to hear from you!</p>
+				</div>
+
+				<form class="bg-white/95 max-w-3xl rounded-xl border border-blue-600/12 p-8 text-left mx-auto shadow-sm space-y-4" method="POST">
+					{{ contact_us_form.hidden_tag() }}
+					<div class="grid grid-cols-2 gap-4">
+						<div>
+							{{ contact_us_form.first_name.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.first_name }}
+							{% for error in contact_us_form.first_name.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div>
+							{{ contact_us_form.last_name.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.last_name }}
+							{% for error in contact_us_form.last_name.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div class="col-span-2">
+							{{ contact_us_form.email.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.email }}
+							{% for error in contact_us_form.email.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div>
+							{{ contact_us_form.number_code.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.number_code }}
+							{% for error in contact_us_form.number_code.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div>
+							{{ contact_us_form.phone_number.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.phone_number }}
+							{% for error in contact_us_form.phone_number.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div class="col-span-2">
+							{{ contact_us_form.message.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
+							{{ contact_us_form.message }}
+							{% for error in contact_us_form.message.errors %}
+								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						<div class="col-span-2">
+							<button name="contact_us_form" class="items-center justify-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold rounded-lg px-4 py-2 transition hover:-translate-y-0.5 hover:shadow hover:shadow-blue-800/30 text-base">Send Message</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</section>
 		{% include 'components/footer.html' %}
 
 	</body>
