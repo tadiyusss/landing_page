@@ -2,13 +2,17 @@ from .. import bp
 from flask import render_template, request, redirect, url_for, flash
 from core.extensions import db
 from ..forms.waitlist import WaitlistForm
-from ..models.waitlist import Waitlist, WaitlistRole, ProductInterest, MonthlyOrdersRange
+from ..models.waitlist import Waitlist
 from extensions.landing_page.decorators.visitor_tracker import track_visitor
+from ..models.faq import FAQ
 
 @bp.route('/', methods=['GET', 'POST'])
 @track_visitor
 def home():
     form = WaitlistForm()
+    faqs = FAQ.query.order_by(FAQ.created_at.desc()).all()
+    waitlist_count = Waitlist.query.count()
+
     if request.method == 'POST':
         if form.validate_on_submit():
             waitlist_entry = Waitlist(
@@ -24,4 +28,4 @@ def home():
             flash('You have been added to the waitlist!', 'success')
             return redirect(url_for('landing_page.home') + '#waitlist')
 
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, faqs=faqs, waitlist_count=waitlist_count)

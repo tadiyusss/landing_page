@@ -12,11 +12,25 @@ def manage_faqs():
 
 @bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/delete', methods=['GET'])
 def delete_faq(faq_uuid):
-    faq = FAQ.query.get_or_404(faq_uuid)
+    faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
     db.session.delete(faq)
     db.session.commit()
     flash('Entry deleted successfully!', 'success')
     return redirect(url_for('landing_page.manage_faqs'))
+
+@bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/edit', methods=['GET', 'POST'])
+def edit_faq(faq_uuid):
+    faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
+    form = FAQForm(obj=faq)
+    
+    if form.validate_on_submit():
+        faq.question = form.question.data
+        faq.answer = form.answer.data
+        db.session.commit()
+        flash('Entry updated successfully!', 'success')
+        return redirect(url_for('landing_page.manage_faqs'))
+    return render_template('dashboard/create_or_edit_faq.html', form=form, faq=faq, is_edit=True)
+
 
 @bp.route('/dashboard/landing-page/faqs/create', methods=['GET', 'POST'])
 def create_faq():
@@ -32,4 +46,4 @@ def create_faq():
         db.session.commit()
         flash('New entry created successfully!', 'success')
         return redirect(url_for('landing_page.manage_faqs'))
-    return render_template('dashboard/create_faq.html', form=form)
+    return render_template('dashboard/create_or_edit_faq.html', form=form, is_edit=False)

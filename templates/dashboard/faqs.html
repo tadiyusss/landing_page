@@ -24,10 +24,10 @@
 					{% for faq in faqs %}
                    	<tr class="hover:bg-blue-50/40 transition-colors duration-100">
 						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.created_by.username }}</td>
-						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.question }}</td>
-						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.answer }}</td>
+						<td class="px-4 py-3.5 text-blue-800">{{ faq.question }}</td>
+						<td class="px-4 py-3.5 text-blue-800">{{ faq.answer }}</td>
 						<td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-1">
-							<a href="#" class="btn btn-primary">Edit</a>
+							<a href="{{ url_for('landing_page.edit_faq', faq_uuid=faq.uuid) }}" class="btn btn-primary">Edit</a>
 							<a href="{{ url_for('landing_page.delete_faq', faq_uuid=faq.uuid) }}" class="btn btn-danger">Delete</a>
 						</td>
 					</tr>

@@ -134,13 +134,7 @@
 		</section>
 
 		<section class="py-16 bg-white border-b border-blue-600/8">
-			<div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-				<div>
-					<p class="brand text-4xl font-bold text-blue-800">300 <span class="text-blue-500">+</span>
-					</p>
-					<div class="w-8 h-0.5 bg-blue-800 rounded-full mx-auto mt-2 mb-2"></div>
-					<p class="text-sm text-blue-800/50 font-medium">Waitlist Signups</p>
-				</div>
+			<div class="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
 				<div>
 					<p class="brand text-4xl font-bold text-blue-800">100 <span class="text-blue-500">%</span>
 					</p>
@@ -399,66 +393,20 @@
 					<h2 class="brand text-4xl md:text-5xl text-blue-800 mb-4">Your questions, answered.</h2>
 				</div>
 				<div class="space-y-3">
+					{% for entry in faqs %}
 					<div class="faq-item bg-white rounded-2xl border border-blue-600/12 shadow-sm overflow-hidden">
-						<input type="checkbox" id="faq1" />
-						<label for="faq1" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
-							<span class="font-semibold text-blue-800 text-sm">Is {{ g.settings['site_title'] }} only for Telegram sellers?</span>
+						<input type="checkbox" id="faq_{{ entry.uuid }}" />
+						<label for="faq_{{ entry.uuid }}" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
+							<span class="font-semibold text-blue-800 text-sm">{{ entry.question }}</span>
 							<svg class="faq-icon w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
 							</svg>
 						</label>
 						<div class="faq-answer">
-							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">{{ g.settings['site_title'] }} is optimized for Telegram-based commerce, but any digital seller can use it. Whether you sell via Telegram, email, or social media, {{ g.settings['site_title'] }}'s escrow and automation tools work for you.</p>
+							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">{{ entry.answer }}</p>
 						</div>
 					</div>
-					<div class="faq-item bg-white rounded-2xl border border-blue-600/12 shadow-sm overflow-hidden">
-						<input type="checkbox" id="faq2" />
-						<label for="faq2" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
-							<span class="font-semibold text-blue-800 text-sm">How does escrow work exactly?</span>
-							<svg class="faq-icon w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-							</svg>
-						</label>
-						<div class="faq-answer">
-							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">When a buyer places an order, payment is held securely by {{ g.settings['site_title'] }}. Once the buyer confirms receipt, funds are released. If no confirmation within 48 hours, payment releases automatically. Disputes are reviewed within 24 hours.</p>
-						</div>
-					</div>
-					<div class="faq-item bg-white rounded-2xl border border-blue-600/12 shadow-sm overflow-hidden">
-						<input type="checkbox" id="faq3" />
-						<label for="faq3" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
-							<span class="font-semibold text-blue-800 text-sm">What delivery methods are supported?</span>
-							<svg class="faq-icon w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-							</svg>
-						</label>
-						<div class="faq-answer">
-							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">We support Telegram bot delivery, email delivery, and manual delivery confirmation. You can configure per-product which method to use. Automated delivery via Telegram bot is the fastest experience for both parties.</p>
-						</div>
-					</div>
-					<div class="faq-item bg-white rounded-2xl border border-blue-600/12 shadow-sm overflow-hidden">
-						<input type="checkbox" id="faq4" />
-						<label for="faq4" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
-							<span class="font-semibold text-blue-800 text-sm">How are sellers verified?</span>
-							<svg class="faq-icon w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-							</svg>
-						</label>
-						<div class="faq-answer">
-							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">Sellers go through: Telegram account linkage, government ID check (for Premium badges), and transaction history review after their first 10 orders. Verified status requires ongoing good standing to maintain.</p>
-						</div>
-					</div>
-					<div class="faq-item bg-white rounded-2xl border border-blue-600/12 shadow-sm overflow-hidden">
-						<input type="checkbox" id="faq5" />
-						<label for="faq5" class="flex items-center justify-between px-6 py-5 gap-4 cursor-pointer">
-							<span class="font-semibold text-blue-800 text-sm">When are you launching and is there a fee?</span>
-							<svg class="faq-icon w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-							</svg>
-						</label>
-						<div class="faq-answer">
-							<p class="px-6 pb-5 text-sm text-blue-800/60 leading-relaxed">Targeting Q3 2025 for public beta. Beta access is free. Post-launch: a small 2–3% transaction fee, no monthly subscription. Early waitlist members get a reduced rate locked in for life.</p>
-						</div>
-					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</section>
@@ -527,18 +475,6 @@
 					<button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-800/30 text-base">Reserve My Early Access Spot</button>
 					<p class="text-center text-xs text-blue-800/40">Free during beta · No credit card · Spots are limited</p>
 				</form>
-				<div class="flex items-center justify-center gap-6 mt-8">
-					<div class="flex -space-x-2">
-						<div class="w-8 h-8 rounded-full bg-blue-400 border-2 border-white flex items-center justify-center text-white text-xs font-bold">A</div>
-						<div class="w-8 h-8 rounded-full bg-indigo-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">M</div>
-						<div class="w-8 h-8 rounded-full bg-blue-700 border-2 border-white flex items-center justify-center text-white text-xs font-bold">K</div>
-						<div class="w-8 h-8 rounded-full bg-sky-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">D</div>
-						<div class="w-8 h-8 rounded-full bg-blue-300 border-2 border-white flex items-center justify-center text-blue-800 text-xs font-bold">+</div>
-					</div>
-					<p class="text-blue-800/50 text-sm">
-						<span class="text-blue-800 font-semibold">300+</span> sellers already on the waitlist
-					</p>
-				</div>
 			</div>
 		</section>
 		
