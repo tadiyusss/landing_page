@@ -4,7 +4,7 @@ import uuid
 
 STATUS_CHOICES = [
     ('new', 'New'),
-    ('seen', 'Seen'),
+    ('pending', 'Pending'),
     ('replied', 'Replied'),
 ]
 

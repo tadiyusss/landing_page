@@ -23,7 +23,7 @@
 				<tbody class="divide-y divide-blue-600/[0.05]"> 
 					{% for faq in faqs %}
                    	<tr class="hover:bg-blue-50/40 transition-colors duration-100">
-						<td class="px-4 py-3.5 text-blue-800/50">{{ faq.created_by }}</td>
+						<td class="px-4 py-3.5 text-blue-800/50">{% if faq.created_by.username %} {{ faq.created_by.username }} {% else %} None {% endif %}</td>
 						<td class="px-4 py-3.5 text-blue-800">{{ faq.question }}</td>
 						<td class="px-4 py-3.5 text-blue-800">{{ faq.answer }}</td>
 						<td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-1">

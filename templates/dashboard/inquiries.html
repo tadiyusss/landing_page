@@ -25,16 +25,16 @@
 				<tbody class="divide-y divide-blue-600/[0.05]"> 
                     {% if inquiries %} 
                     {% for inquiry in inquiries %} 
-                    <tr class="hover:bg-blue-50/40 transition-colors duration-100 {% if inquiry.status != 'new' %}opacity-50{% endif %}">
-                        <td class="px-4 py-3.5 text-zinc-900">{{ inquiry.first_name }}</td>
-                        <td class="px-4 py-3.5 text-zinc-900">{{ inquiry.last_name }}</td>
-                        <td class="px-4 py-3.5 text-zinc-900">{{ inquiry.email }}</td>
-                        <td class="px-4 py-3.5 text-zinc-900">({{ inquiry.number_code }}) {{ inquiry.phone_number }}</td>
-                        <td class="px-4 py-3.5 text-zinc-900">
+                    <tr class="hover:bg-blue-50/40 transition-colors duration-100">
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.first_name }}</td>
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.last_name }}</td>
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.email }}</td>
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">({{ inquiry.number_code }}) {{ inquiry.phone_number }}</td>
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">
                             <p class="line-clamp-2">{{ inquiry.message }}</p>
                         </td>
                             
-						<td class="px-4 py-3.5 text-zinc-900">{{ inquiry.created_at.strftime("%B") }} {{ inquiry.created_at.day }}, {{ inquiry.created_at.year }}</td>
+						<td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.created_at.strftime("%B") }} {{ inquiry.created_at.day }}, {{ inquiry.created_at.year }}</td>
                         <td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-2">
 							<a href="{{ url_for('landing_page.view_inquiry', inquiry_uuid=inquiry.uuid) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="normal-action-btn">
