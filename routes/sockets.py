@@ -1,12 +1,20 @@
 from core.extensions import socketio
 from flask import request
+from flask_login import current_user
 
-connected_users = {}
+CHAT_MODERATOR_ROLES = ["Administrator", "Support Agent"]
+
+connected_users = {
+    "users": [],
+    "moderators": []
+}
+
 
 @socketio.on('connect')
 def handle_connect():
-    connected_users[request.sid] = True
-    print("Client Connected: " + request.sid)
+    if current_user.is_authenticated:
+        print(current_user.has_role("Administrator"))
+
 
 
 @socketio.on('disconnect')
