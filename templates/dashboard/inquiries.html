@@ -13,8 +13,8 @@
 			<table class="w-full text-xs">
 				<thead>
 					<tr class="border-b border-blue-600/[0.08] bg-blue-50/40">
-						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">First Name</th>
-						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Last Name</th>
+						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Status</th>
+                        <th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Name</th>
 						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Email</th>
 						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Number</th>
 						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Message</th>
@@ -26,8 +26,18 @@
                     {% if inquiries %} 
                     {% for inquiry in inquiries %} 
                     <tr class="hover:bg-blue-50/40 transition-colors duration-100">
-                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.first_name }}</td>
-                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.last_name }}</td>
+                        <td class="px-4 py-3.5 text-zinc-900">
+                            {% if inquiry.status == "seen" %}
+                            <span class="text-xs rounded-lg px-2 py-1 bg-gray-200 text-black">Seen</span>
+                            {% elif inquiry.status == "pending" %}
+                            <span class="text-xs rounded-lg px-2 py-1 bg-yellow-500 text-zinc-800">Pending</span>
+                            {% elif inquiry.status == 'replied' %}
+                            <span class="text-xs rounded-lg px-2 py-1 bg-green-500/50 text-white">Replied</span>
+                            {% elif inquiry.status == 'new' %}
+                            <span class="text-xs rounded-lg px-2 py-1 bg-green-600 text-white">New</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.first_name }} {{ inquiry.last_name }}</td>
                         <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.email }}</td>
                         <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">({{ inquiry.number_code }}) {{ inquiry.phone_number }}</td>
                         <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">
