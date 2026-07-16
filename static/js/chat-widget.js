@@ -1,10 +1,11 @@
 function chatWidget() {
 	return {
-		open: false,
+		open: true,
 		hasOpened: false,
 		typing: false,
 		unread: 1,
 		draft: '',
+		show_input: false,
 		messages: [],
 		init() {
 			// nothing here

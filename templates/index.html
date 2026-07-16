@@ -556,10 +556,30 @@
 				</div>
 
 				<div x-ref="scrollArea" class="chat-scroll flex-1 space-y-2.5 overflow-y-auto bg-slate-50 p-4">
-					
+					<form method="POST" class="space-y-2.5">
+						<div>
+							<label for="" class="form-label">First Name</label>
+							<input type="text" name="" id="" class="text-input" placeholder="Enter your first name...">
+						</div>
+						<div>
+							<label for="" class="form-label">Last Name</label>
+							<input type="text" name="" id="" class="text-input" placeholder="Enter your last name...">
+						</div>
+						<div>
+							<label for="" class="form-label">Email</label>
+							<input type="text" name="" id="" class="text-input" placeholder="Enter your email...">
+						</div>
+						<div>
+							<label for="" class="form-label">Phone Number</label>
+							<input type="text" name="" id="" class="text-input" placeholder="Enter your phone number...">
+						</div>
+						<div>
+							<button class="btn btn-primary">Chat with Us</button>
+						</div>
+					</form>
 				</div>
 
-				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5">
+				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5" x-show="show_input">
 					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="autoGrow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-full border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
 					<button @click="send()" aria-label="Send message" class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-white transition hover:bg-blue-800">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
