@@ -25,7 +25,9 @@
                    	<tr class="hover:bg-blue-50/40 transition-colors duration-100">
 						<td class="px-4 py-3.5 text-blue-800/50">{% if faq.created_by.username %} {{ faq.created_by.username }} {% else %} None {% endif %}</td>
 						<td class="px-4 py-3.5 text-blue-800">{{ faq.question }}</td>
-						<td class="px-4 py-3.5 text-blue-800">{{ faq.answer }}</td>
+						<td class="px-4 py-3.5 text-blue-800">
+							<p class="line-clamp-2">{{ faq.answer }}</p>
+						</td>
 						<td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-1">
 							<a href="{{ url_for('landing_page.edit_faq', faq_uuid=faq.uuid) }}">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="normal-action-btn">
