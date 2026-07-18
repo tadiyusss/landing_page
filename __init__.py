@@ -9,7 +9,7 @@ bp = Blueprint('landing_page', __name__, template_folder=TEMPLATE_FOLDER, static
 
 from .routes import public
 from .routes.dashboard import inquiries, waitlist, faqs, messages
-from .routes import sockets
+from .routes import sockets, api
 
 def init_extension(app, db):
     with app.app_context():

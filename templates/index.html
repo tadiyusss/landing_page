@@ -556,31 +556,43 @@
 				</div>
 
 				<div x-ref="scrollArea" class="chat-scroll flex-1 space-y-2.5 overflow-y-auto bg-slate-50 p-4">
-					<form method="POST" class="space-y-2.5" x-data="start_chat()">
+					<form method="POST" class="space-y-2.5" x-show="!session_id">
 						{{ start_chat_form.hidden_tag() }}
 						<div>
 							{{ start_chat_form.first_name.label(class="form-label")  }}
 							{{ start_chat_form.first_name }}
+							<template x-for="error in errors.first_name">
+								<small class="text-xs text-red-700" x-text="error"></small>
+							</template>
 						</div>
 						<div>
 							{{ start_chat_form.last_name.label(class="form-label")  }}
 							{{ start_chat_form.last_name }}
+							<template x-for="error in errors.last_name">
+								<small class="text-xs text-red-700" x-text="error"></small>
+							</template>
 						</div>
 						<div>
 							{{ start_chat_form.email.label(class="form-label")  }}
 							{{ start_chat_form.email }}
+							<template x-for="error in errors.email">
+								<small class="text-xs text-red-700" x-text="error"></small>
+							</template>
 						</div>
 						<div>
 							{{ start_chat_form.phone_number.label(class="form-label")  }}
 							{{ start_chat_form.phone_number }}
+							<template x-for="error in errors.phone_number">
+								<small class="text-xs text-red-700" x-text="error"></small>
+							</template>
 						</div>
 						<div>
-							<button type="button" class="btn btn-primary" @click="submit_form">Chat with Us</button>
+							<button type="button" class="btn btn-primary disabled:opacity-50" @click="submit_form" :disabled="!allow_submit">Chat with Us</button>
 						</div>
 					</form>
 				</div>
 
-				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5" x-show="show_input">
+				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5" x-show="session_id">
 					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="autoGrow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-full border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
 					<button @click="send()" aria-label="Send message" class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-white transition hover:bg-blue-800">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -604,16 +616,6 @@
 		{% block javascript %}
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 		<script src="{{ url_for('landing_page.static', filename='js/chat-widget.js') }}"></script>
-		<script>
-			var socket = io();
-			socket.on('connect', function() {
-				console.log('Connected to server');
-			});
-
-			socket.on('disconnect', function() {
-				console.log('Disconnected from server');
-			});
-		</script>
 		{% endblock %}
 	</body>
 </html>
