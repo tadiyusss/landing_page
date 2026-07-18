@@ -556,25 +556,26 @@
 				</div>
 
 				<div x-ref="scrollArea" class="chat-scroll flex-1 space-y-2.5 overflow-y-auto bg-slate-50 p-4">
-					<form method="POST" class="space-y-2.5">
+					<form method="POST" class="space-y-2.5" x-data="start_chat()">
+						{{ start_chat_form.hidden_tag() }}
 						<div>
-							<label for="" class="form-label">First Name</label>
-							<input type="text" name="" id="" class="text-input" placeholder="Enter your first name...">
+							{{ start_chat_form.first_name.label(class="form-label")  }}
+							{{ start_chat_form.first_name }}
 						</div>
 						<div>
-							<label for="" class="form-label">Last Name</label>
-							<input type="text" name="" id="" class="text-input" placeholder="Enter your last name...">
+							{{ start_chat_form.last_name.label(class="form-label")  }}
+							{{ start_chat_form.last_name }}
 						</div>
 						<div>
-							<label for="" class="form-label">Email</label>
-							<input type="text" name="" id="" class="text-input" placeholder="Enter your email...">
+							{{ start_chat_form.email.label(class="form-label")  }}
+							{{ start_chat_form.email }}
 						</div>
 						<div>
-							<label for="" class="form-label">Phone Number</label>
-							<input type="text" name="" id="" class="text-input" placeholder="Enter your phone number...">
+							{{ start_chat_form.phone_number.label(class="form-label")  }}
+							{{ start_chat_form.phone_number }}
 						</div>
 						<div>
-							<button class="btn btn-primary">Chat with Us</button>
+							<button type="button" class="btn btn-primary" @click="submit_form">Chat with Us</button>
 						</div>
 					</form>
 				</div>

@@ -71,3 +71,16 @@ function chatWidget() {
 		}
 	};
 }
+
+function start_chat() {
+	return {
+		submiting: false,
+		first_name: '',
+		last_name: '',
+		email: '',
+		phone_number: '',
+		submit_form(){
+			alert('Form submitted!');
+		}
+	}
+}

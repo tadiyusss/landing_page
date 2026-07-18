@@ -16,3 +16,7 @@ def validate_waitlist_unique_email(form, field):
 def validate_waitlist_unique_telegram(form, field):
     if field.data and Waitlist.query.filter_by(telegram_username=field.data).first():
         raise ValidationError('This Telegram username is already registered in the waitlist.')
+    
+def validate_phone_number(form, field):
+    if len(field.data) != 11 or not field.data.isdigit() or not field.data.startswith('09'):
+        raise ValidationError('Invalid phone number. It should be 11 digits long and start with "09".')
