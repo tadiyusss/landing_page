@@ -562,38 +562,51 @@
 							{{ start_chat_form.first_name.label(class="form-label")  }}
 							{{ start_chat_form.first_name }}
 							<template x-for="error in errors.first_name">
-								<small class="text-xs text-red-700" x-text="error"></small>
+								<p class="text-xs text-red-700" x-text="error"></p>
 							</template>
 						</div>
 						<div>
 							{{ start_chat_form.last_name.label(class="form-label")  }}
 							{{ start_chat_form.last_name }}
 							<template x-for="error in errors.last_name">
-								<small class="text-xs text-red-700" x-text="error"></small>
+								<p class="text-xs text-red-700" x-text="error"></p>
 							</template>
 						</div>
 						<div>
 							{{ start_chat_form.email.label(class="form-label")  }}
 							{{ start_chat_form.email }}
 							<template x-for="error in errors.email">
-								<small class="text-xs text-red-700" x-text="error"></small>
+								<p class="text-xs text-red-700" x-text="error"></p>
 							</template>
 						</div>
 						<div>
 							{{ start_chat_form.phone_number.label(class="form-label")  }}
 							{{ start_chat_form.phone_number }}
 							<template x-for="error in errors.phone_number">
-								<small class="text-xs text-red-700" x-text="error"></small>
+								<p class="text-xs text-red-700" x-text="error"></p>
 							</template>
 						</div>
 						<div>
 							<button type="button" class="btn btn-primary disabled:opacity-50" @click="submit_form" :disabled="!allow_submit">Chat with Us</button>
 						</div>
 					</form>
+					<div class="w-full space-y-1" x-show="session_id">
+						<template x-for="message in messages" :key="message.created_at">
+							<template x-if="message.sender === 'client'">
+								<div class="flex justify-end">
+									<div class="bg-blue-700 text-white px-4 py-2 rounded-2xl rounded-br-sm max-w-[80%] break-words" x-text="message.content"></div>
+								</div>
+								<div class="flex justify-start">
+									<div class="bg-slate-200 text-slate-800 px-4 py-2 rounded-2xl rounded-bl-sm max-w-[80%] break-words" x-text="message.content"></div>
+								</div>
+							</template>
+						</template>
+						<button type="button" @click="console.log(messages)">View Messages</button>
+					</div>
 				</div>
 
 				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5" x-show="session_id">
-					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="autoGrow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-full border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
+					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="auto_grow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
 					<button @click="send()" aria-label="Send message" class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-white transition hover:bg-blue-800">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
 							<path d="M2 21l21-9L2 3v7l15 2-15 2z" />

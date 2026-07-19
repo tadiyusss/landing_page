@@ -2,7 +2,7 @@ function chatWidget() {
 	return {
 		open: true,
 		hasOpened: false,
-		session_id: localStorage.getItem('chat_session_id') || '',
+		session_id: localStorage.getItem('user_id') || '',
 		typing: false,
 		unread: 1,
 		draft: '',
@@ -13,13 +13,16 @@ function chatWidget() {
 		email: '',
 		phone_number: '',
 		errors: {},
-		socket: io(),
+		socket: null,
 		init() {
-			this.socket.on('connect', () => {
-				if (this.session_id) {
-					this.socket.emit('join', { session_id: this.session_id });
-				}
+			this.socket = io();
+
+			this.socket.on('history', (data) => {
+				this.messages = data.messages;
+				this.scroll_to_bottom();
 			});
+			
+			this.socket.emit('history', { 'user_id': this.session_id });
 		},
 		scroll_to_bottom() {
 			this.$nextTick(() => {
@@ -33,16 +36,6 @@ function chatWidget() {
 		open_chat() {
 			this.open = true;
 			this.unread = 0;
-			if (!this.hasOpened) {
-				this.hasOpened = true;
-				setTimeout(() => {
-					this.messages.push({
-						from: 'bot',
-						text: "Hi there 👋 How can we help you today?"
-					});
-					this.scroll_to_bottom();
-				}, 300);
-			}
 			this.$nextTick(() => this.$refs.input.focus());
 		},
 		close() {
@@ -56,29 +49,21 @@ function chatWidget() {
 		send() {
 			const text = this.draft.trim();
 			if (!text) return;
-			this.messages.push({
-				from: 'user',
-				text
-			});
+			this.socket.emit('message', {
+				'user_id': this.session_id,
+				'message': text
+			})
+			this.message.push({
+				'sender': 'client',
+				'message_type': 'text',
+				'content': text,
+				'timestamp': new Date().toISOString()
+			})
 			this.draft = '';
 			this.$nextTick(() => {
 				this.$refs.input.style.height = 'auto';
 			});
 			this.scroll_to_bottom();
-			this.bot_reply(text);
-		},
-
-		bot_reply(userText) {
-			this.typing = true;
-			this.scroll_to_bottom();
-			setTimeout(() => {
-				this.typing = false;
-				this.messages.push({
-					from: 'bot',
-					text: "Thanks for your message! A member of our team will be with you shortly."
-				});
-				this.scroll_to_bottom();
-			}, 1100);
 		},
 		get allow_submit() {
 			return !!(
@@ -106,12 +91,11 @@ function chatWidget() {
 			})
 			.then(response => response.json())
 			.then(data => {
-
 				if (!data.success){
 					this.errors = data.errors;
 				} else {
-					this.session_id = data.session_id;
-					localStorage.setItem('chat_session_id', this.session_id);
+					this.session_id = data.user_id;
+					localStorage.setItem('user_id', this.session_id);
 				}
 			})
 			

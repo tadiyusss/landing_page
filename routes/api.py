@@ -23,7 +23,7 @@ def start_chat():
         return jsonify({
             "success": True,
             "message": "Chat started successfully.",
-            "session_id": str(client.session_id)
+            "user_id": str(client.uuid)
         })
     
     return jsonify({
