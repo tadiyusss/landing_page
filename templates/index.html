@@ -6,6 +6,9 @@
 		<title>{{ g.settings['site_title'] }} — The Trusted Marketplace for Digital Sellers</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 		<link rel="stylesheet" href="{{ url_for('landing_page.static', filename='css/base.css') }}">
+		{% if g.settings['favicon_icon'] %}
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		{% endif %}
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 		<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 	</head>
@@ -556,25 +559,57 @@
 				</div>
 
 				<div x-ref="scrollArea" class="chat-scroll flex-1 space-y-2.5 overflow-y-auto bg-slate-50 p-4">
-					<template x-for="(m, i) in messages" :key="i">
-						<div :class="m.from === 'user' ? 'flex justify-end' : 'flex justify-start'">
-							<div :class="m.from === 'user'
-					? 'bg-blue-700 text-white rounded-2xl rounded-br-sm'
-					: 'bg-slate-200 text-slate-800 rounded-2xl rounded-bl-sm'" class="max-w-[80%] px-3.5 py-2 text-sm leading-relaxed" x-text="m.text"></div>
+					<form method="POST" class="space-y-2.5" x-show="!session_id">
+						{{ start_chat_form.hidden_tag() }}
+						<div>
+							{{ start_chat_form.first_name.label(class="form-label")  }}
+							{{ start_chat_form.first_name }}
+							<template x-for="error in errors.first_name">
+								<p class="text-xs text-red-700" x-text="error"></p>
+							</template>
 						</div>
-					</template>
-					<!-- typing indicator -->
-					<div x-show="typing" x-cloak class="flex justify-start">
-						<div class="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-slate-200 px-3.5 py-3">
-							<span class="dot h-1.5 w-1.5 rounded-full bg-slate-500"></span>
-							<span class="dot h-1.5 w-1.5 rounded-full bg-slate-500" style="animation-delay:.15s"></span>
-							<span class="dot h-1.5 w-1.5 rounded-full bg-slate-500" style="animation-delay:.3s"></span>
+						<div>
+							{{ start_chat_form.last_name.label(class="form-label")  }}
+							{{ start_chat_form.last_name }}
+							<template x-for="error in errors.last_name">
+								<p class="text-xs text-red-700" x-text="error"></p>
+							</template>
 						</div>
+						<div>
+							{{ start_chat_form.email.label(class="form-label")  }}
+							{{ start_chat_form.email }}
+							<template x-for="error in errors.email">
+								<p class="text-xs text-red-700" x-text="error"></p>
+							</template>
+						</div>
+						<div>
+							{{ start_chat_form.phone_number.label(class="form-label")  }}
+							{{ start_chat_form.phone_number }}
+							<template x-for="error in errors.phone_number">
+								<p class="text-xs text-red-700" x-text="error"></p>
+							</template>
+						</div>
+						<div>
+							<button type="button" class="btn btn-primary disabled:opacity-50" @click="submit_form" :disabled="!allow_submit">Chat with Us</button>
+						</div>
+					</form>
+					<div class="w-full space-y-1" x-show="session_id">
+						<template x-for="message in messages" :key="message.created_at">
+							<template x-if="message.sender === 'client'">
+								<div class="flex justify-end">
+									<div class="bg-blue-700 text-white px-4 py-2 rounded-2xl rounded-br-sm max-w-[80%] break-words" x-text="message.content"></div>
+								</div>
+								<div class="flex justify-start">
+									<div class="bg-slate-200 text-slate-800 px-4 py-2 rounded-2xl rounded-bl-sm max-w-[80%] break-words" x-text="message.content"></div>
+								</div>
+							</template>
+						</template>
+						<button type="button" @click="console.log(messages)">View Messages</button>
 					</div>
 				</div>
 
-				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5">
-					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="autoGrow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-full border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
+				<div class="flex items-end gap-2 border-t border-slate-100 bg-white p-2.5" x-show="session_id">
+					<textarea x-ref="input" x-model="draft" @keydown.enter.prevent="send()" @input="auto_grow()" rows="1" placeholder="Type a message..." class="max-h-24 flex-1 resize-none rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-600"></textarea>
 					<button @click="send()" aria-label="Send message" class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-white transition hover:bg-blue-800">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
 							<path d="M2 21l21-9L2 3v7l15 2-15 2z" />
@@ -594,79 +629,9 @@
 			</button>
 		</div>
 		{% include 'components/footer.html' %}
-		<script>
-			function chatWidget() {
-				return {
-					open: false,
-					hasOpened: false,
-					typing: false,
-					unread: 1,
-					draft: '',
-					messages: [],
-					init() {
-						// nothing here
-					},
-					scrollToBottom() {
-						this.$nextTick(() => {
-							const el = this.$refs.scrollArea;
-							el.scrollTop = el.scrollHeight;
-						});
-					},
-					toggle() {
-						this.open ? this.close() : this.openChat();
-					},
-					openChat() {
-						this.open = true;
-						this.unread = 0;
-						if (!this.hasOpened) {
-							this.hasOpened = true;
-							setTimeout(() => {
-								this.messages.push({
-									from: 'bot',
-									text: "Hi there 👋 How can we help you today?"
-								});
-								this.scrollToBottom();
-							}, 300);
-						}
-						this.$nextTick(() => this.$refs.input.focus());
-					},
-					close() {
-						this.open = false;
-					},
-					autoGrow() {
-						const el = this.$refs.input;
-						el.style.height = 'auto';
-						el.style.height = Math.min(el.scrollHeight, 96) + 'px';
-					},
-					send() {
-						const text = this.draft.trim();
-						if (!text) return;
-						this.messages.push({
-							from: 'user',
-							text
-						});
-						this.draft = '';
-						this.$nextTick(() => {
-							this.$refs.input.style.height = 'auto';
-						});
-						this.scrollToBottom();
-						this.botReply(text);
-					},
-
-					botReply(userText) {
-						this.typing = true;
-						this.scrollToBottom();
-						setTimeout(() => {
-							this.typing = false;
-							this.messages.push({
-								from: 'bot',
-								text: "Thanks for your message! A member of our team will be with you shortly."
-							});
-							this.scrollToBottom();
-						}, 1100);
-					}
-				};
-			}
-		</script>
+		{% block javascript %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+		<script src="{{ url_for('landing_page.static', filename='js/chat-widget.js') }}"></script>
+		{% endblock %}
 	</body>
 </html>

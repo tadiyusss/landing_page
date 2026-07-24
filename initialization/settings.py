@@ -16,7 +16,10 @@ SETTINGS = [
                 field=StringField(
                     "Customer Support Telegram Username", 
                     description="The Telegram username (without @) for customer support inquiries.",
-                    validators=[validate_telegram_username]
+                    validators=[validate_telegram_username],
+                    render_kw={
+                        "class": "text-input"
+                    }
                 ),
                 category_name="landing_page"
             ),
@@ -27,6 +30,9 @@ SETTINGS = [
                 field=EmailField(
                     "Customer Support Email", 
                     description="The email address for customer support inquiries.",
+                    render_kw={
+                        "class": "text-input"
+                    }
                 ),
                 category_name="landing_page"
             )
