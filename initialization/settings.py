@@ -18,7 +18,7 @@ SETTINGS = [
                     description="The Telegram username (without @) for customer support inquiries.",
                     validators=[validate_telegram_username],
                     render_kw={
-                        "class": "text-input"
+                        "class": "fd-input"
                     }
                 ),
                 category_name="landing_page"
@@ -31,7 +31,7 @@ SETTINGS = [
                     "Customer Support Email", 
                     description="The email address for customer support inquiries.",
                     render_kw={
-                        "class": "text-input"
+                        "class": "fd-input"
                     }
                 ),
                 category_name="landing_page"
