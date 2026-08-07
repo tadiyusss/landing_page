@@ -1,42 +1,40 @@
 {% extends "dashboard/base.html" %}
-{% block title %}{{ g.settings['site_title'] }} - Waitlist{% endblock %}
+{% block title %}{{ g.settings['site_title'] }} - FAQs{% endblock %}
 {% block main %}
-<div class="max-w-6xl mx-auto">
-	<div class="card overflow-hidden">
-		<div class="px-6 py-4 border-b border-blue-600/[0.08] flex items-center justify-between gap-4 flex-wrap">
+<div class="fd-dashboard-page-lg">
+	<div class="fd-card">
+		<div class="fd-card-header fd-card-header-w-btn">
 			<div>
-				<h3 class="text-sm font-semibold text-blue-800">Manage FAQs</h3>
-				<p class="text-xs text-blue-800/45 mt-0.5">Manage and update frequently asked questions.</p>
+				<h3 class="fd-card-title">Manage FAQs</h3>
+				<p class="fd-card-subtitle">Manage and update frequently asked questions.</p>
 			</div>
-			<a href="{{ url_for('landing_page.create_faq') }}" class="btn btn-primary">Add Entry</a>
+			<a href="{{ url_for('landing_page.create_faq') }}" class="fd-btn fd-btn-secondary fd-btn-sm">Add Entry</a>
 		</div>
-		<div class="overflow-x-auto">
-			<table class="w-full text-xs">
+		<div class="fd-table-container">
+			<table class="fd-table">
 				<thead>
-					<tr class="border-b border-blue-600/[0.08] bg-blue-50/40">
-						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Created By</th>
-						<th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Question</th>
-						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Answer</th>
-						<th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Action</th>
+					<tr class="fd-table-header-row">
+						<th>Question</th>
+						<th>Answer</th>
+						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody class="divide-y divide-blue-600/[0.05]"> 
+				<tbody class="fd-table-body"> 
 					{% for faq in faqs %}
-                   	<tr class="hover:bg-blue-50/40 transition-colors duration-100">
-						<td class="px-4 py-3.5 text-blue-800/50">{% if faq.created_by.username %} {{ faq.created_by.username }} {% else %} None {% endif %}</td>
-						<td class="px-4 py-3.5 text-blue-800">{{ faq.question }}</td>
-						<td class="px-4 py-3.5 text-blue-800">
+                   	<tr class="fd-table-row">
+						<td class="fd-table-col-md">{{ faq.question }}</td>
+						<td class="fd-table-col-md">
 							<p class="line-clamp-2">{{ faq.answer }}</p>
 						</td>
-						<td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-1">
+						<td class="fd-table-col-md fd-table-col-flex">
 							<a href="{{ url_for('landing_page.edit_faq', faq_uuid=faq.uuid) }}">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="normal-action-btn">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="fd-table-action-btn">
                                     <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
                                     <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                                 </svg>
 							</a>
 							<a href="{{ url_for('landing_page.delete_faq', faq_uuid=faq.uuid) }}">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="danger-action-btn">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="fd-table-action-btn fd-table-action-btn-danger">
                                     <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                                 </svg>
 							</a>
@@ -44,16 +42,13 @@
 					</tr>
 					{% else %}
 					<tr>
-						<td colspan="4" class="p-6 text-center text-blue-800/50">No FAQs found. Start by creating a new entry.</td>
+						<td colspan="4" class="fd-table-no-data">No FAQs found. Start by creating a new entry.</td>
 					</tr>
 					{% endfor %}
                 </tbody>
 			</table>
 		</div>
 	</div>
-    <div class="flex items-center justify-between gap-4 px-1 py-4">
-        <p class="text-xs text-blue-800/40 font-medium">Showing <span class="text-blue-800 font-semibold">{{ faqs|length }}</span> results </p>
-    </div>
 </div>
     
 {% endblock %}

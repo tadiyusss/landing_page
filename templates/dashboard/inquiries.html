@@ -1,76 +1,74 @@
 {% extends "dashboard/base.html" %}
 {% block title %}{{ g.settings['site_title'] }} - Inquiries{% endblock %}
 {% block main %}
-<div class="max-w-6xl mx-auto w-full overflow-x-hidden space-y-4">
-    <div class="card w-full">
+<div class="fd-dashboard-page-xl">
+    <div class="w-full">
         <form action="" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-                {{ filter_form.query.label(class="form-label") }}
+                {{ filter_form.query.label(class="fd-form-label") }}
                 {{ filter_form.query }}
             </div>
             <div>
-                {{ filter_form.status.label(class="form-label") }}
+                {{ filter_form.status.label(class="fd-form-label") }}
                 {{ filter_form.status }}
             </div>
             <div class="">
-                {{ filter_form.date_start.label(class="form-label") }}
+                {{ filter_form.date_start.label(class="fd-form-label") }}
                 {{ filter_form.date_start }}
             </div>
             <div class="">
-                {{ filter_form.date_end.label(class="form-label") }}
+                {{ filter_form.date_end.label(class="fd-form-label") }}
                 {{ filter_form.date_end }}
             </div>
-            <div class="col-span-1 md:col-span-2 lg:col-span-3">
-                <button class="btn btn-primary">Search</button>
+            <div class="fd-card-buttons">
+                <button class="fd-btn fd-btn-secondary fd-btn-sm">Search</button>
             </div>
         </form>
     </div>
     <div class="">
-        <div class="card w-full overflow-hidden">
-            <div class="px-6 py-4 border-b border-blue-600/[0.08] flex items-center justify-between gap-4">
-                <div>
-                    <h3 class="text-sm font-semibold text-blue-800">Manage Inquiries</h3>
-                    <p class="text-xs text-blue-800/45 mt-0.5">Manage and update inquiry entries.</p>
-                </div>
+        <div class="fd-card">
+            <div class="fd-card-header">
+                <h3 class="fd-card-title">Manage Inquiries</h3>
+                <p class="fd-card-subtitle">Manage and update inquiry entries.</p>
             </div>
-            <div class="overflow-x-auto overflow-y-auto max-h-[70vh] w-full">
-                <table class="w-full text-xs min-w-[640px]">
-                    <thead class="sticky top-0 z-10 bg-blue-50">
-                        <tr class="border-b border-blue-600/[0.08] bg-blue-50/40">
-                            <th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Status</th>
-                            <th class="text-left px-6 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Name</th>
-                            <th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Email</th>
-                            <th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Date Created</th>
-                            <th class="text-left px-4 py-3 text-blue-800/50 font-semibold uppercase tracking-wider">Actions</th>
+            <div class="fd-table-container">
+                <table class="fd-table">
+                    <thead>
+                        <tr class="fd-table-header-row">
+                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-blue-600/[0.05]"> 
+                    <tbody class="fd-table-body"> 
                         {% if inquiries %} 
                         {% for inquiry in inquiries %} 
-                        <tr class="hover:bg-blue-50/40 transition-colors duration-100">
-                            <td class="px-4 py-3.5 text-zinc-900">
+                        <tr class="fd-table-row">
+                            <td class="fd-table-col fd-table-col-md">
                                 {% if inquiry.status == "seen" %}
-                                <span class="text-xs rounded-lg px-2 py-1 bg-gray-200 text-black">Seen</span>
+                                <span class="fd-badge fd-badge-warning">Seen</span>
                                 {% elif inquiry.status == "pending" %}
-                                <span class="text-xs rounded-lg px-2 py-1 bg-yellow-500 text-zinc-800">Pending</span>
+                                <span class="fd-badge fd-badge-warning">Pending</span>
                                 {% elif inquiry.status == 'replied' %}
-                                <span class="text-xs rounded-lg px-2 py-1 bg-green-500/50 text-white">Replied</span>
+                                <span class="fd-badge fd-badge-primary">Replied</span>
                                 {% elif inquiry.status == 'new' %}
-                                <span class="text-xs rounded-lg px-2 py-1 bg-green-600 text-white">New</span>
+                                <span class="fd-badge fd-badge-success">New</span>
                                 {% endif %}
                             </td>
-                            <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.first_name }} {{ inquiry.last_name }}</td>
-                            <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.email }}</td>
-                            <td class="px-4 py-3.5 text-zinc-900 {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.created_at.strftime("%B") }} {{ inquiry.created_at.day }}, {{ inquiry.created_at.year }}</td>
-                            <td class="px-4 py-3.5 text-blue-800/50 flex items-center gap-2">
+                            <td class="fd-table-col fd-table-col-md {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.first_name }} {{ inquiry.last_name }}</td>
+                            <td class="fd-table-col fd-table-col-md {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.email }}</td>
+                            <td class="fd-table-col fd-table-col-md {% if inquiry.status != 'new' %}opacity-50{% endif %}">{{ inquiry.created_at.strftime("%B") }} {{ inquiry.created_at.day }}, {{ inquiry.created_at.year }}</td>
+                            <td class="fd-table-col fd-table-col-md fd-table-col-flex">
                                 <a href="{{ url_for('landing_page.view_inquiry', inquiry_uuid=inquiry.uuid) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="normal-action-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="fd-table-action-btn">
                                         <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
                                         <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
                                     </svg>
                                 </a>
                                 <a href="{{ url_for('landing_page.delete_inquiry', inquiry_uuid=inquiry.uuid) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="danger-action-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="fd-table-action-btn fd-table-action-btn-danger">
                                         <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                                     </svg>
                                 </a>
@@ -79,39 +77,75 @@
                         {% endfor %} 
                         {% else %} 
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-blue-800/35 text-xs">No inquiries found.</td>
+                            <td colspan="6" class="fd-table-no-data">No inquiries found.</td>
                         </tr> 
                         {% endif %} 
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="flex items-center justify-between gap-4 px-1 py-4">
-            <p class="text-xs text-blue-800/40 font-medium">Showing results {{ pagination.page }} of {{ pagination.pages }}</p>
-            <div class="flex items-center gap-1">
+        <div class="fd-pagination">
+            <p class="fd-pagination-info">Showing results {{ pagination.page }} of {{ pagination.pages }}</p>
+
+            <div class="fd-pagination-nav">
                 {% if pagination.has_prev %}
-                <a href="{{ url_for('landing_page.manage_inquiries', page=1) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
-                    </svg>
-                </a>
-                <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.prev_num) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
+                    <a href="{{ url_for('landing_page.manage_inquiries', page=1) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}"
+                    class="fd-pagination-link"
+                    aria-label="First page">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+
+                    <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.prev_num) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}"
+                    class="fd-pagination-link"
+                    aria-label="Previous page">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                {% else %}
+                    <span class="fd-pagination-link fd-pagination-disabled">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/>
+                        </svg>
+                    </span>
+
+                    <span class="fd-pagination-link fd-pagination-disabled">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </span>
                 {% endif %}
+
                 {% if pagination.has_next %}
-                <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.next_num) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
-                <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.pages) }}{% if filters_get_values %}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}{% endif %}" class="w-8 h-8 flex items-center justify-center rounded-lg border border-blue-600/20 text-blue-800/40 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-600/40 transition text-xs font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M6 5l7 7-7 7" />
-                    </svg>
-                </a>
+                    <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.next_num) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}"
+                    class="fd-pagination-link"
+                    aria-label="Next page">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+
+                    <a href="{{ url_for('landing_page.manage_inquiries', page=pagination.pages) }}{% if filters_get_values %}&{{ filters_get_values | urlencode }}{% endif %}"
+                    class="fd-pagination-link"
+                    aria-label="Last page">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M6 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                {% else %}
+                    <span class="fd-pagination-link fd-pagination-disabled">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+
+                    <span class="fd-pagination-link fd-pagination-disabled">
+                        <svg class="fd-pagination-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M6 5l7 7-7 7"/>
+                        </svg>
+                    </span>
                 {% endif %}
             </div>
         </div>

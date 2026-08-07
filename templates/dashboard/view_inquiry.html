@@ -1,27 +1,30 @@
 {% extends "dashboard/base.html" %}
 {% block title %}{{ g.settings['site_title'] }} - View Inquiry{% endblock %}
 {% block main %}
-<div class="max-w-2xl mx-auto space-y-6">
-    <div class="card p-7">
-        <div class="border-b border-blue-600/[0.09] pb-3.5 mb-5">
-            <h3 class="text-sm font-semibold text-blue-800">Prospect Information</h3>
-            <p class="text-xs text-blue-800/45 mt-0.5">Contact information of the submitted inquiry.</p>
+<div class="fd-dashboard-page-xs">
+    <div class="fd-card">
+        <div class="fd-card-header">
+            <h3 class="fd-card-title">Prospect Information</h3>
+            <p class="fd-card-subtitle">Contact information of the submitted inquiry.</p>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="space-y-1">
-                <h6 class="text-xs font-medium text-blue-800/70">Full Name</h6>
-                <p class="text-blue-900 text-sm">{{ inquiry.first_name }} {{ inquiry.last_name }}</p>
+        <div class="fd-card-body space-y-4">
+            <div class="fd-form-group">
+                <h6 class="fd-form-label">Full Name</h6>
+                <input type="text" value="{{ inquiry.first_name }} {{ inquiry.last_name }}" class="fd-input" disabled>
             </div>
-            <div class="space-y-1">
-                <h6 class="text-xs font-medium text-blue-800/70">Email</h6>
-                <p class="text-blue-900 text-sm">{{ inquiry.email }}</p>
+
+            <div class="fd-form-group">
+                <h6 class="fd-form-label">Email</h6>
+                <input type="text" value="{{ inquiry.email }}" class="fd-input" disabled>
             </div>
-            <div class="space-y-1">
-                <h6 class="text-xs font-medium text-blue-800/70">Phone Number</h6>
-                <p class="text-blue-900 text-sm">({{ inquiry.number_code }}) {{ inquiry.phone_number }}</p>
+
+            <div class="fd-form-group">
+                <h6 class="fd-form-label">Phone Number</h6>
+                <input type="text" value="{{ inquiry.phone_number }}" class="fd-input" disabled>
             </div>
-            <div class="space-y-1">
-                <h6 class="text-xs font-medium text-blue-800/70">Status</h6>
+
+            <div class="fd-form-group">
+                <h6 class="fd-form-label">Status</h6>
                 {% if inquiry.status == "seen" %}
                 <span class="text-xs rounded-lg px-2 py-1 bg-gray-200 text-black">Seen</span>
                 {% elif inquiry.status == "pending" %}
@@ -32,21 +35,23 @@
             </div>
         </div>
     </div>
-    <div class="card p-7">
-        <div class="border-b border-blue-600/[0.09] pb-3.5 mb-5">
-            <h3 class="text-sm font-semibold text-blue-800">Message</h3>
+    <div class="fd-card">
+        <div class="fd-card-header">
+            <h3 class="fd-card-title">Message</h3>
         </div>
-        <p class="text-sm text-blue-900">{{ inquiry.message }}</p>
+        <div class="fd-card-body">
+            <p class="text-sm">{{ inquiry.message }}</p>
+        </div>
     </div>
-    <div class="flex items-center justify-between">
-        <a href="{{ url_for('landing_page.manage_inquiries') }}" class="btn bg-gray-100 border-gray-300 text-gray-800 font-medium hover:bg-gray-200">Return</a>
-        <a href="{{ url_for('landing_page.change_inquiry_status', inquiry_uuid=inquiry.uuid) }}" class="btn btn-primary">
+    <div class="fd-card-buttons">
+        <a href="{{ url_for('landing_page.change_inquiry_status', inquiry_uuid=inquiry.uuid) }}" class="fd-btn fd-btn-secondary fd-btn-sm">
             {% if inquiry.status == 'pending' %}
-                Mark as Replied
+            Mark as Replied
             {% elif inquiry.status == 'replied' %}
-                Mark as Pending
+            Mark as Pending
             {% endif %}
         </a>
+        <a href="{{ url_for('landing_page.manage_inquiries') }}" class="fd-btn fd-btn-outline fd-btn-sm">Return</a>
     </div>
 </div>
 {% endblock %}
