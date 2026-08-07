@@ -8,8 +8,7 @@ from .initialization.roles import initialize_roles
 bp = Blueprint('landing_page', __name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC_FOLDER, static_url_path="/static/landing_page")
 
 from .routes import public
-from .routes.dashboard import inquiries, waitlist, faqs, messages
-from .routes import sockets, api
+from .routes.dashboard import inquiries, faqs
 
 def init_extension(app, db):
     with app.app_context():

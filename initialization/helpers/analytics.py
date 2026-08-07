@@ -1,9 +1,5 @@
-from extensions.landing_page.models.waitlist import Waitlist
 from extensions.landing_page.models.visitors import Visitor, Visit
 from extensions.landing_page.models.contact_us import ContactUs
-
-def get_waitlist_count():
-    return Waitlist.query.count()
 
 def get_total_visitors():
     return Visitor.query.count()

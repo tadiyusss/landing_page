@@ -31,10 +31,6 @@
 						</h1>
 						<p class="animate-fade-up delay-300 text-lg text-blue-800/60 leading-relaxed mb-8 max-w-md"> {{ g.settings['site_title'] }} is the first marketplace built specifically for Telegram sellers — with escrow protection, verified identities, automated delivery, and real reputation scores. </p>
 						<div class="animate-fade-up delay-400 flex flex-wrap gap-3 mb-10">
-							<a href="#waitlist" class="inline-flex items-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-xl transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-800/30">
-								<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-								</svg> Get Early Access </a>
 							<a href="#how" class="inline-flex items-center gap-2 bg-transparent text-blue-800 font-semibold px-6 py-3.5 rounded-xl border border-blue-600/30 hover:bg-blue-50 hover:border-blue-500 transition hover:-translate-y-0.5"> See How It Works <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 									<path stroke-linecap="round" d="M19 9l-7 7-7-7" />
 								</svg>
@@ -415,72 +411,7 @@
 			</div>
 		</section>
 
-		<section id="waitlist" class="py-24 relative overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800" style="background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 40px 40px;">
-			<div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none -translate-y-1/4 translate-x-1/4"></div>
-			<div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl pointer-events-none translate-y-1/4 -translate-x-1/4"></div>
-			<div class="max-w-2xl mx-auto px-6 text-center relative z-10">
-				<div class="inline-flex items-center gap-2 bg-white/10 text-white/70 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/15 mb-6">
-					<span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block"></span> 
-					<p class="text-blue-800/60">Now accepting early access</p>
-				</div>
-				<h2 class="brand text-4xl md:text-5xl text-blue-800 mb-4 leading-tight">Join the next generation <br />of trusted digital commerce. </h2>
-				<p class="text-blue-800/60 text-lg mb-10 max-w-md mx-auto">Be among the first 500 sellers. Get a locked-in reduced fee rate, priority support, and your verified badge from day one.</p>
-				<form class="bg-white/95 rounded-2xl border border-blue-600/12 shadow-2xl p-8 text-left space-y-4" method="POST">
-					<div class="grid grid-cols-2 gap-4">
-						{{ waitlist_form.hidden_tag() }}
-						<div>
-							{{ waitlist_form.role.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ waitlist_form.role }}
-							{% for error in waitlist_form.role.errors %}
-								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
-							{% endfor %}
-						</div>
-						<div>
-							{{ waitlist_form.telegram_username.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ waitlist_form.telegram_username }}
-							{% for error in waitlist_form.telegram_username.errors %}
-								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
-							{% endfor %}
-						</div>
-					</div>
-					<div>
-						{{ waitlist_form.email.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-						{{ waitlist_form.email }}
-						{% for error in waitlist_form.email.errors %}
-							<p class="text-red-500 text-xs mt-1">{{ error }}</p>
-						{% endfor %}
-					</div>
-					<div class="grid grid-cols-2 gap-4">
-						<div>
-							{{ waitlist_form.product_interest.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ waitlist_form.product_interest }}
-							{% for error in waitlist_form.product_interest.errors %}
-								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
-							{% endfor %}
-						</div>
-						<div>
-							{{ waitlist_form.monthly_orders_range.label(class="block text-xs font-semibold text-blue-800 mb-1.5") }}
-							{{ waitlist_form.monthly_orders_range }}
-							{% for error in waitlist_form.monthly_orders_range.errors %}
-								<p class="text-red-500 text-xs mt-1">{{ error }}</p>
-							{% endfor %}
-						</div>
-					</div>
-					{% with messages = get_flashed_messages(with_categories=true) %}
-						{% for category, message in messages %}
-							<div class="flex items-center gap-2.5 bg-{{ 'green' if category == 'success' else 'red' }}-50 border border-{{ 'green' if category == 'success' else 'red' }}-200 text-{{ 'green' if category == 'success' else 'red' }}-700 text-sm rounded-xl px-4 py-3">
-								<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-								</svg>
-								{{ message }}
-							</div>
-						{% endfor %}
-					{% endwith %}
-					<button type="submit" name="waitlist_form" class="w-full inline-flex items-center justify-center gap-2 bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-800/30 text-base">Reserve My Early Access Spot</button>
-					<p class="text-center text-xs text-blue-800/40">Free during beta · No credit card · Spots are limited</p>
-				</form>
-			</div>
-		</section>
+		
 		<section id="contact-us" class="py-24 bg-white">
 			<div class="max-w-5xl mx-auto px-6">
 				<div class="text-center mb-16">
@@ -629,9 +560,5 @@
 			</button>
 		</div>
 		{% include 'components/footer.html' %}
-		{% block javascript %}
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-		<script src="{{ url_for('landing_page.static', filename='js/chat-widget.js') }}"></script>
-		{% endblock %}
 	</body>
 </html>
