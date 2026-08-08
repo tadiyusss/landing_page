@@ -9,15 +9,15 @@ from flask_login import login_required
 
 
 @bp.route('/dashboard/landing-page/faqs')
-@role_required('Administrator')
 @login_required
+@role_required('Administrator')
 def manage_faqs():
     faqs = FAQ.query.order_by(FAQ.created_at.desc()).all()
     return render_template('dashboard/faqs.html', faqs=faqs)
 
 @bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/delete', methods=['GET'])
-@role_required('Administrator')
 @login_required
+@role_required('Administrator')
 def delete_faq(faq_uuid):
     faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
     db.session.delete(faq)
@@ -26,8 +26,8 @@ def delete_faq(faq_uuid):
     return redirect(url_for('landing_page.manage_faqs'))
 
 @bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/edit', methods=['GET', 'POST'])
-@role_required('Administrator')
 @login_required
+@role_required('Administrator')
 def edit_faq(faq_uuid):
     faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
     form = FAQForm(obj=faq)
@@ -41,8 +41,8 @@ def edit_faq(faq_uuid):
     return render_template('dashboard/create_or_edit_faq.html', form=form, faq=faq, is_edit=True)
 
 @bp.route('/dashboard/landing-page/faqs/create', methods=['GET', 'POST'])
-@role_required('Administrator')
 @login_required
+@role_required('Administrator')
 def create_faq():
     form = FAQForm()
     
@@ -54,6 +54,6 @@ def create_faq():
         )
         db.session.add(faq)
         db.session.commit()
-        flash('New entr y created successfully!', 'success')
+        flash('New entry created successfully!', 'success')
         return redirect(url_for('landing_page.manage_faqs'))
     return render_template('dashboard/create_or_edit_faq.html', form=form, is_edit=False)
