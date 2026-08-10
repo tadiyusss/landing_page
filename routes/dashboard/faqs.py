@@ -4,20 +4,20 @@ from extensions.landing_page.forms.faq import FAQForm
 from extensions.landing_page.models.faq import FAQ
 from core.extensions import db
 from flask_login import current_user
-from core.utils.decorators import role_required
+from core.utils.decorators import roles_required
 from flask_login import login_required
 
 
 @bp.route('/dashboard/landing-page/faqs')
 @login_required
-@role_required('Administrator')
+@roles_required(['Administrator', 'Editor'])
 def manage_faqs():
     faqs = FAQ.query.order_by(FAQ.created_at.desc()).all()
     return render_template('dashboard/faqs.html', faqs=faqs)
 
 @bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/delete', methods=['GET'])
 @login_required
-@role_required('Administrator')
+@roles_required(['Administrator', 'Editor'])
 def delete_faq(faq_uuid):
     faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
     db.session.delete(faq)
@@ -27,7 +27,7 @@ def delete_faq(faq_uuid):
 
 @bp.route('/dashboard/landing-page/faqs/<string:faq_uuid>/edit', methods=['GET', 'POST'])
 @login_required
-@role_required('Administrator')
+@roles_required(['Administrator', 'Editor'])
 def edit_faq(faq_uuid):
     faq = FAQ.query.filter_by(uuid=faq_uuid).first_or_404()
     form = FAQForm(obj=faq)
@@ -42,7 +42,7 @@ def edit_faq(faq_uuid):
 
 @bp.route('/dashboard/landing-page/faqs/create', methods=['GET', 'POST'])
 @login_required
-@role_required('Administrator')
+@roles_required(['Administrator', 'Editor'])
 def create_faq():
     form = FAQForm()
     

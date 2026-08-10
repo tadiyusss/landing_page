@@ -1,7 +1,7 @@
 from extensions.landing_page import bp
 from flask import render_template, request, url_for, redirect, flash
 from core.extensions import db
-from core.utils.decorators import role_required
+from core.utils.decorators import role_required, roles_required
 from flask_login import login_required
 from extensions.landing_page.models.testimonial import Testimonial
 from extensions.landing_page.forms.testimonial import TestimonialForm
@@ -12,14 +12,14 @@ UPLOAD_FOLDER = 'media'
 
 @bp.route('/dashboard/landing-page/testimonials')
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Editor'])
 def manage_testimonials():
     testimonials = Testimonial.query.all()
     return render_template('dashboard/testimonials.html', testimonials=testimonials)
 
 @bp.route('/dashboard/landing-page/testimonials/create', methods=['GET', 'POST'])
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Editor'])
 def add_testimonial():
     form = TestimonialForm()
     form.image.validators.append(FileRequired(message="Please upload an image for the testimonial."))
@@ -54,7 +54,7 @@ def add_testimonial():
 
 @bp.route('/dashboard/landing-page/testimonials/edit/<string:testimonial_uuid>', methods=['GET', 'POST'])
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Editor'])
 def edit_testimonial(testimonial_uuid):
     testimonial = Testimonial.query.filter_by(uuid=testimonial_uuid).first_or_404()
     form = TestimonialForm(obj=testimonial)
@@ -83,7 +83,7 @@ def edit_testimonial(testimonial_uuid):
 
 @bp.route('/dashboard/landing-page/testimonials/delete/<string:testimonial_uuid>', methods=['GET', 'POST'])
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Editor'])
 def delete_testimonial(testimonial_uuid):
     testimonial = Testimonial.query.filter_by(uuid=testimonial_uuid).first_or_404()
 

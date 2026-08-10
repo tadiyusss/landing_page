@@ -3,12 +3,12 @@ from flask import render_template, request, url_for, redirect, flash
 from extensions.landing_page.models.contact_us import ContactUs
 from extensions.landing_page.forms.filters.contact_us import FilterContactUsForm
 from core.extensions import db
-from core.utils.decorators import role_required
+from core.utils.decorators import role_required, roles_required
 from flask_login import login_required
 
 @bp.route('/dashboard/landing-page/inquiries')
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Support Agent'])
 def manage_inquiries():
     filter_form = FilterContactUsForm(request.args)
     page = request.args.get('page', 1, type=int)
@@ -40,7 +40,7 @@ def manage_inquiries():
 
 @bp.route('/dashboard/landing-page/inquiries/delete/<string:inquiry_uuid>')
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Support Agent'])
 def delete_inquiry(inquiry_uuid):
     inquiry = ContactUs.query.filter_by(uuid=inquiry_uuid).first_or_404()
     db.session.delete(inquiry)
@@ -50,7 +50,7 @@ def delete_inquiry(inquiry_uuid):
 
 @bp.route('/dashboard/landing-page/inquiries/change-status/<string:inquiry_uuid>')
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Support Agent'])
 def change_inquiry_status(inquiry_uuid):
     inquiry = ContactUs.query.filter_by(uuid=inquiry_uuid).first_or_404()
     if inquiry.status == 'pending':
@@ -63,7 +63,7 @@ def change_inquiry_status(inquiry_uuid):
 
 @bp.route('/dashboard/landing-page/inquiries/view/<string:inquiry_uuid>')
 @login_required
-@role_required("Administrator")
+@roles_required(['Administrator', 'Support Agent'])
 def view_inquiry(inquiry_uuid):
     inquiry = ContactUs.query.filter_by(uuid=inquiry_uuid).first_or_404()
 
