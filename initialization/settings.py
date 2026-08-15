@@ -10,20 +10,6 @@ SETTINGS = [
         description="Settings related to the landing page extension.",
         settings=[
             SettingItem(
-                key="csr_telegram_username",
-                name="Customer Support Telegram Username",
-                value="",
-                field=StringField(
-                    "Customer Support Telegram Username", 
-                    description="The Telegram username (without @) for customer support inquiries.",
-                    validators=[validate_telegram_username],
-                    render_kw={
-                        "class": "fd-input"
-                    }
-                ),
-                category_name="landing_page"
-            ),
-            SettingItem(
                 key="csr_email",
                 name="Customer Support Email",
                 value="",
@@ -35,11 +21,49 @@ SETTINGS = [
                     }
                 ),
                 category_name="landing_page"
+            ),
+            SettingItem(
+                key="facebook_url",
+                name="Facebook URL",
+                value="",
+                field=StringField(
+                    "Facebook URL",
+                    description="The URL of the Facebook page for the landing page. e.g., https://www.facebook.com/yourpage",
+                    render_kw={
+                        "class": "fd-input"
+                    }
+                ),
+                category_name="landing_page"
+            ),
+            SettingItem(
+                key="tiktok_url",
+                name="TikTok URL",
+                value="",
+                field=StringField(
+                    "TikTok URL",
+                    description="The URL of the TikTok page for the landing page. e.g., https://www.tiktok.com/@yourusername",
+                    render_kw={
+                        "class": "fd-input"
+                    }
+                ),
+                category_name="landing_page"
+            ),
+            SettingItem(
+                key="instagram_url",
+                name="Instagram URL",
+                value="",
+                field=StringField(
+                    "Instagram URL",
+                    description="The URL of the Instagram page for the landing page. e.g., https://www.instagram.com/yourusername",
+                    render_kw={
+                        "class": "fd-input"
+                    }
+                ),
+                category_name="landing_page"
             )
         ]
     )
 ]
-
 
 def register_settings():
     for category in SETTINGS:
