@@ -11,7 +11,7 @@ from extensions.landing_page.forms.office_location import OfficeLocationForm
 from extensions.landing_page.models.office_location import OfficeLocation
 from extensions.landing_page.models.phone_number import PhoneNumber
 from extensions.landing_page.forms.phone_number import PhoneNumberForm
-
+from werkzeug.utils import secure_filename
 
 @bp.route('/dashboard/landing-page/about-us', methods=['GET', 'POST'])
 @login_required
@@ -46,9 +46,10 @@ def create_team_member():
 
             if form.image.data:
                 image_file = form.image.data
-                image_path = f'media/{image_file.filename}'
+                filename = secure_filename(image_file.filename)
+                image_path = f'media/{filename}'
                 image_file.save(image_path)
-                new_member.image = image_file.filename  
+                new_member.image = filename
 
             db.session.add(new_member)
             db.session.commit()

@@ -5,3 +5,4 @@ from .contact_us import ContactUs
 from .testimonial import Testimonial
 from .team_member import TeamMember
 from .office_location import OfficeLocation
+from .phone_number import PhoneNumber
