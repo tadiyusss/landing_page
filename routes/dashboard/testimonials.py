@@ -7,6 +7,7 @@ from extensions.landing_page.models.testimonial import Testimonial
 from extensions.landing_page.forms.testimonial import TestimonialForm
 import os
 from flask_wtf.file import FileRequired
+from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'media'
 
@@ -30,8 +31,9 @@ def add_testimonial():
             image_file = form.image.data
             if image_file:
                 filename = image_file.filename
+                filename = secure_filename(filename)
                 image_path = f"{UPLOAD_FOLDER}/{filename}"
-                image_file.save(image_path)
+                image_file.save(filename)
             else:
                 flash('No image uploaded.', 'danger')
                 return render_template('dashboard/create_or_edit_testimonial.html', form=form)
@@ -39,7 +41,7 @@ def add_testimonial():
             new_testimonial = Testimonial(
                 name=form.name.data,
                 content=form.content.data,
-                image=image_path
+                image=filename
             )
 
             db.session.add(new_testimonial)
@@ -68,9 +70,10 @@ def edit_testimonial(testimonial_uuid):
             if image_file:
                 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
                 filename = image_file.filename
+                filename = secure_filename(filename)
                 image_path = f"{UPLOAD_FOLDER}/{filename}"
                 image_file.save(image_path)
-                testimonial.image = image_path
+                testimonial.image = filename
 
             db.session.commit()
 

@@ -23,7 +23,7 @@
 					{% for testimonial in testimonials %}
                    	<tr class="fd-table-row">
 						<td class="fd-table-col-md fd-table-col-flex">
-							<img src="/{{ testimonial.image }}" alt="{{ testimonial.name }}" class="fd-icon-lg rounded-full">
+							<img src="{{ url_for('media.serve_media', filename=testimonial.image) }}" alt="{{ testimonial.name }}" class="fd-icon-lg rounded-full object-cover">
 							<p>{{ testimonial.name }}</p>
 						</td>
 						<td class="fd-table-col-md">
