@@ -1,7 +1,6 @@
 from core.utils.settings import SettingCategory, SettingItem
 from wtforms import StringField, EmailField
-from ..forms.validators import validate_telegram_username
-from core.utils.registry.settings import register_setting, register_category
+from core.utils.registry.settings import register_category
 
 SETTINGS = [
     SettingCategory(
