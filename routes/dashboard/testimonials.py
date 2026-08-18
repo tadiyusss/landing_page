@@ -33,7 +33,7 @@ def add_testimonial():
                 filename = image_file.filename
                 filename = secure_filename(filename)
                 image_path = f"{UPLOAD_FOLDER}/{filename}"
-                image_file.save(filename)
+                image_file.save(image_path)
             else:
                 flash('No image uploaded.', 'danger')
                 return render_template('dashboard/create_or_edit_testimonial.html', form=form)
